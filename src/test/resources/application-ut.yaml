@@ -1,0 +1,59 @@
+spring:
+  flyway:
+    baseline-on-migrate: 'true'
+    baseline-version: '2'
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: 'true'
+          paths: /**
+    cache:
+      cachecontrol:
+        max-age: 365d
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: test
+    username: test
+    url: jdbc:postgresql://localhost:5433/test
+  cloud:
+    compatibility-verifier:
+      enabled: 'false'
+  jpa:
+    show-sql: 'true'
+
+redis:
+  fromTo:
+    1-10000000: localhost:6379
+    10000001-20000000: localhost:6379
+    20000001-30000000: localhost:6379
+  toFrom:
+    1-10000000: localhost:6380
+    10000001-20000000: localhost:6380
+    20000001-30000000: localhost:6380
+  addresses:
+    1-10000000: localhost:6381
+    10000001-20000000: localhost:6381
+    20000001-30000000: localhost:6381
+
+google:
+  recaptcha:
+    secret: 6Ld3v_kcAAAAAH2-EoG-W7-EEID3hh8u3C6ltKFs
+    thresholdScore: '0.5'
+
+etherscan:
+  api:
+    key: ckey_bbb8566e8ca34b01aba03dec934
+    baseUrl: https://api.covalenthq.com/v1
+
+jwt:
+  secret: jXn2R5u8x@A?D$G#
+  expiration:
+    ms: '3600000'
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n'

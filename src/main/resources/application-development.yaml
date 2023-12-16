@@ -1,0 +1,47 @@
+server:
+  port: 8443
+  tomcat:
+    accept-count: 300
+    accesslog:
+      enabled: false
+      directory: /dev
+      prefix: stdout
+      buffered: false
+      suffix:
+      file-date-format:
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/add_tags
+
+
+redis:
+  min-idle: 4
+  max-total: 200
+  transactions:
+    2015: localhost:6379
+    2016: localhost:6380
+    2017: localhost:6379
+    2018: localhost:6379
+    2019: localhost:6379
+    2020: localhost:6379
+    2021: localhost:6379
+    2022: localhost:6379
+  addresses:
+    1-100000000: localhost:6381
+    100000001-200000000: localhost:6381
+    200000001-300000000: localhost:6381
+
+etherscan:
+  api:
+    key: your_key
+
+consensusapp:
+  metamask:
+    request-validation:
+      enabled: false
+  rate-limit:
+    address:
+      hourly-usage: 100
+      daily-usage: 1000
+      monthly-usage: 10000

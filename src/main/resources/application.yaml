@@ -1,0 +1,40 @@
+server:
+  http2:
+    enabled: true
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: password
+  flyway:
+    baseline-on-migrate: true
+
+discord:
+  exception:
+    webhook:
+      url: https://discord.com/api/webhooks/your_stuff
+  feedback:
+    webhook:
+      url: https://discord.com/api/webhooks/your_stuff
+
+etherscan:
+  api:
+    baseUrl: https://api.etherscan.io/api
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n'
+
+consensusapp:
+  metamask:
+    request-validation:
+      enabled: true
+  rate-limit:
+    endpoint:
+      rps: 20
+      rpm: 1000000
+    address:
+      hourly-usage: 10
+      daily-usage: 100
+      monthly-usage: 1000

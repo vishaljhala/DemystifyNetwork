@@ -1,0 +1,149 @@
+swagger: "2.0"
+info:
+  description: "https://demystify.network/"
+  version: "0.2.1"
+  title: "Demystify Network"
+  contact:
+    email: "contact@demystify.network"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api.demystify.network"
+basePath: "/"
+schemes:
+  - "https"
+paths:
+  "/address/score":
+    post:
+      summary: "Risk Score for Ethereum address"
+      description: "Provides risk score for any ethereum address"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ScoreRequest"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ScoreResponse"
+        "401":
+          description: "Unauthorized request"
+        "429":
+          description: "Too many requests"
+definitions:
+  ScoreRequest:
+    type: "object"
+    required:
+      - "address"
+      - "apiKey"
+    properties:
+      address:
+        type: "string"
+        description: "Valid ETH address for which you want to calculate the risk score"
+        example: "0xab5801a7d398351b8be11c439e05c5b3259aec9b"
+      apiKey:
+        type: "string"
+        description: "Authorize your request with API that was issued to you."
+        example: "abcdefghijklmnopqrstuvwxyz1234567890"
+  ScoreResponse:
+    type: "object"
+    properties:
+      balance:
+        description: "Address balance in WEI"
+        type: "string"
+        example: "49124558172664739582"
+      address:
+        description: "ETH Address"
+        type: "string"
+        example: "0xab5801a7d398351b8be11c439e05c5b3259aec9b"
+      tags:
+        type: "string"
+        description: "Tags that uniquely classify pseudonomous entities without identifying an individual personally"
+        example: "MINER"
+      firstTransactionTimestamp:
+        description: "Timestamp of the first transaction recorded for the address"
+        type: "string"
+        example: "09-Sep-2015 15:41"
+      percentTransactionByRisk:
+        description: "% transactions with low or no risk, with medium risk and with high risk"
+        type: "array"
+        items:
+          type: "string"
+        example:
+          - "99.75"
+          - "0.01"
+          - "0.24"
+      riskScore:
+        description: "Calculated risk score using ML"
+        type: "string"
+        example: "6.66"
+      transactionTraces:
+        type: "object"
+        $ref: "#/definitions/TraceResponse"
+        description: "Transaction traces help you determine how Demystify arrived at that score by tracing Income and expenditure origins. You can use this information to come up with your own score."
+  TraceResponse:
+    type: "object"
+    properties:
+      topCreditsByAmount:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/AddressNode"
+        description: "Credits trace origin of income sources for given address sorted by amount"
+      topDebitsByAmount:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/AddressNode"
+        description: "Debits trace origin of expenditure targets for given address sorted by amount"
+      topCreditsByRisk:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/AddressNode"
+        description: "Credits trace origin of income sources for given address sorted by risk"
+      topDebitsByRisk:
+        type: "array"
+        items:
+          type: "object"
+          $ref: "#/definitions/AddressNode"
+        description: "Debits trace origin of expenditure targets for given address sorted by risk"
+  AddressNode:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "0"
+      address:
+        type: "string"
+        description: "Origin or destination Ethereum address from where funds were received or send to"
+        example: "7c4401ae98f12ef6de39ae24cf9fc51f80eba16b"
+      tags:
+        type: "string"
+        description: "Tags that uniquely classify pseudonomous entities without identifying an individual personally"
+        example: "MINER"
+      directTransfer:
+        type: "object"
+        properties:
+          amount:
+            type: "string"
+            example: "2.13"
+            description: "ETH send from income sources to current address OR from current address to expenditure destinations"
+      indirectTransfers:
+        type: "object"
+        properties:
+          totalPaths:
+            type: "number"
+            format: "int"
+            example: 3
+            description: "Total number of distinct path that leads to same income source or expenditure destination"
+          estimatedAmount:
+            type: "string"
+            example: "2.13"
+            description: "Sum of minimum amount transferred through each distinct path that leads to same income source or expenditure destination"

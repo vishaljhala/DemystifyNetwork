@@ -1,0 +1,38 @@
+server:
+  tomcat:
+    accept-count: 300
+    accesslog:
+      enabled: false
+      directory: /dev
+      prefix: stdout
+      buffered: false
+      suffix:
+      file-date-format:
+
+redis:
+  min-idle: 4
+  max-total: 200
+  transactions:
+    2015: 10.138.15.226:6379
+    2016: 10.138.15.226:6379
+    2017: 10.138.15.226:6379
+    2018: 10.138.15.226:6379
+    2019: 10.138.15.228:6379
+    2020: 10.138.15.228:6379
+    2021: 10.138.15.229:6379
+    2022: 10.138.15.230:6379
+    2023: 10.138.15.201:6379
+  addresses:
+    1-100000000: 10.138.15.227:6379
+    100000001-200000000: 10.138.15.227:6379
+    200000001-300000000: 10.138.15.227:6379
+    300000001-400000000: 10.138.15.227:6379
+
+spring:
+  datasource:
+    url: jdbc:postgresql://10.138.15.225:5432/postgres
+
+etherscan:
+  api:
+    key: ${sm://etherscan-api-key/latest}
+

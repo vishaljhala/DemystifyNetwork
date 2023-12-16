@@ -1,0 +1,53 @@
+etherscan:
+  api:
+    key: ckey_bbb8566e8ca34b01aba03dec934
+    baseUrl: https://api.covalenthq.com/v1
+
+spring:
+  cloud:
+    compatibility-verifier:
+      enabled: 'false'
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: 'true'
+          paths: /**
+    cache:
+      cachecontrol:
+        max-age: 365d
+  datasource:
+    password: test
+    driver-class-name: org.postgresql.Driver
+    username: test
+    url: jdbc:postgresql://localhost:5433/test
+  jpa:
+    show-sql: 'true'
+
+redis:
+  fromTo:
+    1-10000000: localhost:6379
+    10000001-20000000: localhost:6379
+    20000001-30000000: localhost:6379
+  toFrom:
+    1-10000000: localhost:6380
+    10000001-20000000: localhost:6380
+    20000001-30000000: localhost:6380
+  addresses:
+    1-10000000: localhost:6381
+    10000001-20000000: localhost:6381
+    20000001-30000000: localhost:6381
+
+jwt:
+  secret: javainuse
+  expiration:
+    ms: '900000'
+
+google:
+  recaptcha:
+    secret: keep_guessing
+    thresholdScore: '0.5'
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n'
