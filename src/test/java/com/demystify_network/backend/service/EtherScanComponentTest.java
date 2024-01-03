@@ -2,7 +2,7 @@ package com.demystify_network.backend.service;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -10,12 +10,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.demystify_network.backend.util.LoggerExtension;
-import com.demystify_network.backend.service.EtherScanComponent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import java.math.BigInteger;
 import java.net.http.HttpClient;
 import java.nio.file.Files;
@@ -29,6 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
+@WireMockTest
 class EtherScanComponentTest {
 
   public static final HttpClient httpClient = HttpClient
@@ -40,31 +42,30 @@ class EtherScanComponentTest {
   private static EtherScanComponent etherscanComponent;
 
   @RegisterExtension
-  static WireMockExtension wireMock = WireMockExtension
-      .newInstance()
-      .options(wireMockConfig().dynamicPort())
-      .build();
-
-  @RegisterExtension
   static LoggerExtension loggerExtension = new LoggerExtension(
       EtherScanComponent.class
   );
 
   @BeforeAll
-  static void beforeAll() {
+  static void beforeAll(WireMockRuntimeInfo wireMockRuntimeInfo) {
     ObjectMapper om = new ObjectMapper();
     om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     om.registerModule(new Jdk8Module());
     om.registerModule(new JavaTimeModule());
 
+    etherscanComponent = new EtherScanComponent(httpClient, om, key,
+        wireMockRuntimeInfo.getHttpBaseUrl());
   }
 
   @Test
   @DisplayName("Should be able to query balance api and return balance for ETH")
-  void shouldBeAbleToQueryBalanceApiAndReturnBalanceForEth() throws Exception {
-    wireMock.stubFor(
+  void shouldBeAbleToQueryBalanceApiAndReturnBalanceForEth(WireMockRuntimeInfo wireMockRuntimeInfo)
+      throws Exception {
+
+    WireMock wireMock = wireMockRuntimeInfo.getWireMock();
+    wireMock.register(stubFor(
         get(
-            "/v1?module=account&action=balance&tag=latest&address=OKADDRESS&apikey=" +
+            "/?module=account&action=balance&tag=latest&address=OKADDRESS&apikey=" +
                 key
         )
             .willReturn(
@@ -72,7 +73,7 @@ class EtherScanComponentTest {
                     .withStatus(200)
                     .withBody(getResponseBody("okaddress.json"))
             )
-    );
+    ));
     Optional<BigInteger> okaddress = etherscanComponent.fetchBalance(
         "OKADDRESS",
         false);
@@ -86,14 +87,15 @@ class EtherScanComponentTest {
 
   @Test
   @DisplayName("Should return empty when request times out")
-  void shouldReturnEmptyWhenRequestTimesOut() {
-    wireMock.stubFor(
+  void shouldReturnEmptyWhenRequestTimesOut(WireMockRuntimeInfo wireMockRuntimeInfo) {
+    WireMock wireMock = wireMockRuntimeInfo.getWireMock();
+    wireMock.register(stubFor(
         get(
-            "/v1?module=account&action=balance&tag=latest&address=TIMEOUT&apikey=" +
+            "/?module=account&action=balance&tag=latest&address=TIMEOUT&apikey=" +
                 key
         )
             .willReturn(aResponse().withStatus(200).withFixedDelay(1001))
-    );
+    ));
     Optional<BigInteger> timedOutResp = etherscanComponent.fetchBalance(
         "TIMEOUT",
         false);

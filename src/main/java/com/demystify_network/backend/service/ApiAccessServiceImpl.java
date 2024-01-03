@@ -55,17 +55,17 @@ public class ApiAccessServiceImpl implements ApiAccessService {
   @Override
   public Pair<Long, Integer> authorizeRequestForApiKey(String apiKey) {
     User user = addressRedisComponent.findUserByApiKey(apiKey);
-    if (user == null || user.expiryDate.compareTo(Timestamp.from(Instant.now())) < 0
-        || !user.isActive) {
+    if (user == null || user.getExpiryDate().compareTo(Timestamp.from(Instant.now())) < 0
+        || !user.getActive()) {
       return Pair.of(null, 401);
     }
 
     if (addressRedisComponent.userUsageLimitReached(apiKey, user)
         || addressRedisComponent.apiKeyRateLimitReached(apiKey, user)) {
-      return Pair.of(user.pk, 429);
+      return Pair.of(user.getPk(), 429);
     }
 
-    return Pair.of(user.pk, 200);
+    return Pair.of(user.getPk(), 200);
   }
 
   @Override

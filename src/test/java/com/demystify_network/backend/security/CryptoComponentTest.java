@@ -1,16 +1,13 @@
 package com.demystify_network.backend.security;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.demystify_network.backend.config.CryptoConfig;
 import javax.crypto.IllegalBlockSizeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.demystify_network.backend.config.CryptoConfig;
-import com.demystify_network.backend.security.CryptoComponent;
 
 class CryptoComponentTest {
 
@@ -26,7 +23,7 @@ class CryptoComponentTest {
   @DisplayName("Should be able to encrypt and decrypt")
   void shouldBeAbleToEncryptAndDecrypt() {
     String plainText = "blah blah";
-    assertEquals(cc.decrypt(cc.encrypt(plainText)), plainText);
+    assertThat(plainText).isEqualTo(cc.decrypt(cc.encrypt(plainText)));
   }
 
   @Test
@@ -40,12 +37,10 @@ class CryptoComponentTest {
         () ->
             cc.decrypt(encryptedValue.substring(0, encryptedValue.length() - 10))
     );
-    assertTrue(rex.getCause() instanceof IllegalBlockSizeException);
+    assertThat(rex.getCause() instanceof IllegalBlockSizeException).isTrue();
     IllegalBlockSizeException ibsEx = (IllegalBlockSizeException) rex.getCause();
-    assertEquals(
-        "Input length must be multiple of 16 when decrypting with padded cipher",
-        ibsEx.getMessage()
-    );
+    assertThat(ibsEx.getMessage()).isEqualTo(
+        "Input length must be multiple of 16 when decrypting with padded cipher");
 
     rex =
         assertThrows(
@@ -53,11 +48,8 @@ class CryptoComponentTest {
             () -> cc.decrypt(encryptedValue + "smarty pants")
         );
 
-    assertTrue(rex.getCause() instanceof IllegalArgumentException);
+    assertThat(rex.getCause() instanceof IllegalArgumentException).isTrue();
     IllegalArgumentException iaEx = (IllegalArgumentException) rex.getCause();
-    assertEquals(
-        "Input byte array has incorrect ending byte at 24",
-        iaEx.getMessage()
-    );
+    assertThat(iaEx.getMessage()).isEqualTo("Input byte array has incorrect ending byte at 24");
   }
 }

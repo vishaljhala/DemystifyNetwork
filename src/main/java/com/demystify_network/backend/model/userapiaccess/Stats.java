@@ -10,17 +10,17 @@ public class Stats {
 
   @Id
   public Long pk;
-  @Column("user_id")
+  @Column("USER_ID")
   public Long userId;
   public String address;
   public String endpoint;
 
   public String score;
   public String insights;
-  @Column("invoked_at")
+  @Column("INVOKED_AT")
   public Timestamp invokedAt;
   public String ip;
-  @Column("additional_info")
+  @Column("ADDITIONAL_INFO")
   public String additionalInfo;
 
   public Stats(Long userId, String address, String endpoint, String score, String ip,

@@ -9,22 +9,22 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("users")
+@Table("USERS")
 public final class User {
 
   private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern(
       "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'");
 
   @Id
-  public Long pk;
-  @Column("expiry_date")
-  public Timestamp expiryDate;
-  public Boolean isActive;
-  public String password;
-  public String email;
-  public Long dailyCalls = 0L;
-  public Long monthlyCalls = 0L;
-  public Long concurrentCalls = 0L;
+  private Long pk;
+  @Column("EXPIRY_DATE")
+  private Timestamp expiryDate;
+  private Boolean isActive;
+  private String password;
+  private String email;
+  private Long dailyCalls = 0L;
+  private Long monthlyCalls = 0L;
+  private Long concurrentCalls = 0L;
 
   public User(Long pk, String email, String password, Boolean isActive, Timestamp expiryDate,
       Long dailyCalls, Long monthlyCalls, Long concurrentCalls) {
@@ -51,5 +51,69 @@ public final class User {
         new Timestamp(date.getTime()), Long.parseLong(tokens[3]), Long.parseLong(tokens[4]),
         Long.parseLong(tokens[5]));
     return user;
+  }
+
+  public Long getPk() {
+    return pk;
+  }
+
+  public void setPk(Long pk) {
+    this.pk = pk;
+  }
+
+  public Timestamp getExpiryDate() {
+    return expiryDate;
+  }
+
+  public void setExpiryDate(Timestamp expiryDate) {
+    this.expiryDate = expiryDate;
+  }
+
+  public Boolean getActive() {
+    return isActive;
+  }
+
+  public void setActive(Boolean active) {
+    isActive = active;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Long getDailyCalls() {
+    return dailyCalls;
+  }
+
+  public void setDailyCalls(Long dailyCalls) {
+    this.dailyCalls = dailyCalls;
+  }
+
+  public Long getMonthlyCalls() {
+    return monthlyCalls;
+  }
+
+  public void setMonthlyCalls(Long monthlyCalls) {
+    this.monthlyCalls = monthlyCalls;
+  }
+
+  public Long getConcurrentCalls() {
+    return concurrentCalls;
+  }
+
+  public void setConcurrentCalls(Long concurrentCalls) {
+    this.concurrentCalls = concurrentCalls;
   }
 }

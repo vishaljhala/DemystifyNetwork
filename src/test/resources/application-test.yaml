@@ -18,9 +18,9 @@ spring:
         max-age: 365d
   datasource:
     password: test
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.h2.Driver
     username: test
-    url: jdbc:postgresql://localhost:5433/test
+    url: jdbc:h2:mem:test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;
   jpa:
     show-sql: 'true'
 
@@ -50,4 +50,4 @@ google:
 
 logging:
   pattern:
-    console: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n'
+    console: '[%t] %-5level %logger{36}:%L - %msg%n'

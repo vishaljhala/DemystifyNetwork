@@ -1,27 +1,5 @@
 package com.demystify_network.backend.dao;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.function.Function;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.ObjectUtils.Null;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.demystify_network.backend.config.Address;
 import com.demystify_network.backend.config.ConsensusAppProperties;
 import com.demystify_network.backend.config.EndpointLimit;
@@ -33,7 +11,17 @@ import com.demystify_network.backend.model.userapiaccess.User;
 import com.demystify_network.backend.service.TrustlessServiceBase;
 import com.demystify_network.backend.service.discord.DiscordService;
 import com.demystify_network.backend.util.Util;
-
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
@@ -41,7 +29,6 @@ import redis.clients.jedis.Response;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.params.SetParams;
-import redis.clients.jedis.Response;
 
 @Component
 public class AddressRedisComponent extends RedisComponent {
@@ -177,14 +164,15 @@ public class AddressRedisComponent extends RedisComponent {
         jedis.set(API_KEY_DAILY_USAGE + apiKey, Integer.toString(apiKeyDailyUsage));
       }
 
-      return apiKeyDailyUsage >= user.dailyCalls || apiKeyMonthlyUsage >= user.monthlyCalls;
+      return apiKeyDailyUsage >= user.getDailyCalls()
+          || apiKeyMonthlyUsage >= user.getMonthlyCalls();
     });
   }
 
   public Boolean apiKeyRateLimitReached(String apiKey, User user) {
     return redisOperation(1, jedis -> {
       int requestInProgress = Util.safeParseInt(jedis.get(API_KEY_RATE_LIMIT + apiKey + Instant.now().getEpochSecond()));
-      if(requestInProgress >= user.concurrentCalls)
+      if (requestInProgress >= user.getConcurrentCalls())
         return true;
 
       Transaction t = jedis.multi();
