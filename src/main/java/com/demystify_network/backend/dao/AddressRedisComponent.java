@@ -131,53 +131,6 @@ public class AddressRedisComponent extends RedisComponent {
     });
   }
 
-  // public void findByPKPipeline(List<Pair<byte[], String>> nextNodes, Insights insights, String prevPath, Set<String> visitedPaths, Map<byte[],Map<byte[], byte[]>> nextPaths) {
-
-  //   List<Pair<byte[],Response<Map<byte[], byte[]>>>> nextNodeResponses = new ArrayList<>();
-  //   redisOperation(1, jedis -> {
-  //     /* BUG Above - We are not grabbing right instance of Redis Address Shard. This will be a future problem */
-  //     Pipeline p = jedis.pipelined();
-
-  //     for (Pair<byte[], String> nextNode : nextNodes) {
-  //       Integer pk = Util.bytesToInteger(nextNode.getLeft());
-  //       String pathKey = prevPath + "-" + pk;
-  //       if (!visitedPaths.contains(pathKey)) {
-  //         /* BUG - shoudl it be pathkey or nextNode.getLeft */
-  //         nextNodeResponses.add(Pair.of(nextNode.getLeft(),p.hgetAll(nextNode.getLeft())));
-  //         insights.addAddressRedisCount(1);
-  //         if(insights.getAddressRedisCount() > TrustlessServiceBase.MAX_ADDRESSES_TO_SCAN)
-  //           break;
-  //       }
-  //     }
-  //     Long start = System.currentTimeMillis();
-  //     p.sync();
-  //     insights.addAddressPipelineQueryTime(start);
-  //     //insights.addAddressRedisCount(nextNodeResponses.size());
-  //     for (Pair<byte[],Response<Map<byte[], byte[]>>> nextNodeResponse : nextNodeResponses) {
-  //       Map<byte[],byte[]> resp = nextNodeResponse.getRight().get();
-  //       if(resp != null)
-  //         nextPaths.put(nextNodeResponse.getLeft(), resp);
-  //     }
-  //     return null;
-  //   });
-  // }
-
-  // public void findByPK(Path path, Boolean isRootNode, Insights insights) {
-  //   Integer pk = Util.bytesToInteger(path.lastAddressPk);
-  //   redisOperation(pk, jedis -> {
-  //     //Pair<byte[], byte[]> pkBytes = Util.integerToBytes(pk);
-  //     Long start = System.currentTimeMillis();
-  //     Map<byte[], byte[]> values = jedis.hgetAll(path.lastAddressPk);
-  //     insights.addAddressRedisQueryTime(start);
-  //     // byte[] values = jedis.hget(pkBytes.getLeft(), pkBytes.getRight());
-  //     //AddressWithTags address = new AddressWithTags(bytesAddressPk);
-  //     if (values != null) {
-  //       parseAddressValues(values, path, isRootNode);
-  //     }
-  //     return null;
-  //   });
-  // }
-
   public User findUserByApiKey(String apiKey) {
     try {
       return redisOperation(1, jedis -> {

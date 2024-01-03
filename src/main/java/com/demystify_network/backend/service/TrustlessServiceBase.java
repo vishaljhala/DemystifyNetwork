@@ -328,26 +328,11 @@ public abstract class TrustlessServiceBase {
         .thenApply(optBal -> optBal);
   }
 
-  // protected String populateTagsFromFlags(Node node) {
-  //   path.lastAddressTags = path.lastAddressTags == null ? "" : path.lastAddressTags;
-  //   return path.lastAddressTags;
-  // }
-
   protected String populateCategory(Node node) {
     String category =
         node.flags != 0 ? AddressType.flagsToString(node.flags) : "";
     return category;
   }
-
-  // protected void populateFirstTransactionTimestamp(
-  //     ProScoreKnowledgeGraphResponse response,
-  //     CompletableFuture<Optional<Instant>> firstTxnTimestampFuture) {
-  //   firstTxnTimestampFuture
-  //       .join()
-  //       .ifPresentOrElse(
-  //           ts -> response.firstTransactionTimestamp = TS_FORMATTER.format(ts),
-  //           () -> response.firstTransactionTimestamp = "");
-  // }
 
   protected void populateBalance(ProScoreKnowledgeGraphResponse response,
       CompletableFuture<Optional<BigInteger>> balFuture) {
