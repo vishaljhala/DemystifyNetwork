@@ -1,3 +1,11 @@
+# Context
+
+Demystify Network is a threat intelligence platform and a security snap within MetaMask. Open source repo with MIT license will serve as a great example for future snap developers.
+
+Demystify Network was built with generous grants from 
+* Google Web3 Startups - ![Google Web3 Startups](google_web3.png) - https://etherscan.io/nft/0xcc4177805aad9483ea2b2b814b82a83abe564023/214
+* Metamask Grants DAO. ![Metamask Grants DAO](metamask.png) - https://metamaskgrants.org/snaps-sub-dao-grant-001--audits-for-snaps-xmtp-push-protocol-nocturne-demystify-network
+
 # How to run 
 * Make sure you follow SupportScripts and start database before running this application
 * Run locally:  `mvn spring-boot:run -Dspring-boot.run.profiles=development`
@@ -11,7 +19,6 @@ While there are many the solutions in market to protect businesses at a price, t
 
 Demystify Network was built with an intent to protect end users for free and keep the bad actors away while promoting blockchain adoption. Demystify Network achieves it by generating real-time threat intel.
 
-This project was built with generous grants from Google Web3 Startups and Metamask(Consensys).
 
 
 # What does Demystify Network do?
