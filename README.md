@@ -3,8 +3,8 @@
 Demystify Network is a threat intelligence platform and a security snap within MetaMask. Open source repo with MIT license will serve as a great example for future snap developers.
 
 Demystify Network was built with generous grants from 
-* Google Web3 Startups - ![Google Web3 Startups](google_web3.png) - https://etherscan.io/nft/0xcc4177805aad9483ea2b2b814b82a83abe564023/214
-* Metamask Grants DAO. ![Metamask Grants DAO](metamask.png) - https://metamaskgrants.org/snaps-sub-dao-grant-001--audits-for-snaps-xmtp-push-protocol-nocturne-demystify-network
+* Google Web3 Startups - <a href="https://etherscan.io/nft/0xcc4177805aad9483ea2b2b814b82a83abe564023/214"><img src="https://github.com/vishaljhala/DemystifyNetwork/blob/main/google_web3.png" align="left" width="96" ></a>
+* Metamask Grants DAO. ![Metamask Grants DAO](metamaskdao.png) - https://metamaskgrants.org/snaps-sub-dao-grant-001--audits-for-snaps-xmtp-push-protocol-nocturne-demystify-network
 
 # How to run 
 * Make sure you follow SupportScripts and start database before running this application
