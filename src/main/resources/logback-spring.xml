@@ -12,7 +12,7 @@
     </layout>
   </appender>
 
-  <logger name="com.demystify_network.backend" level="info" additivity="false">
+  <logger name="com.demystify.network.backend" level="info" additivity="false">
     <appender-ref ref="console"/>
   </logger>
 
