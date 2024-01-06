@@ -10,6 +10,7 @@ Demystify Network was built with generous grants from
 * Metamask Grants DAO.<br />
 <a href="https://metamaskgrants.org/snaps-sub-dao-grant-001--audits-for-snaps-xmtp-push-protocol-nocturne-demystify-network"><img src="https://github.com/vishaljhala/DemystifyNetwork/blob/main/metamaskdao.png" align="left" width="196" ></a><br />
 <br /><br />
+
 # How to run 
 * Make sure you follow SupportScripts and start database before running this application
 * Run locally:  `mvn spring-boot:run -Dspring-boot.run.profiles=development`
