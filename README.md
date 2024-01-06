@@ -6,11 +6,9 @@ Demystify Network was built with generous grants from
 <div>
 * Google Web3 Startups<br />
 <a href="https://etherscan.io/nft/0xcc4177805aad9483ea2b2b814b82a83abe564023/214"><img src="https://github.com/vishaljhala/DemystifyNetwork/blob/main/google_web3.png" align="left" width="96" ></a><br />
- </div>
- <div>
+<br /><br /><br /><br />
 * Metamask Grants DAO.<br />
 <a href="https://metamaskgrants.org/snaps-sub-dao-grant-001--audits-for-snaps-xmtp-push-protocol-nocturne-demystify-network"><img src="https://github.com/vishaljhala/DemystifyNetwork/blob/main/metamaskdao.png" align="left" width="196" ></a><br />
-</div>
 
 # How to run 
 * Make sure you follow SupportScripts and start database before running this application
