@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
   <property name="LOGS" value="./logs"/>
 
@@ -11,11 +12,11 @@
     </layout>
   </appender>
 
-  <logger name="com.demystify_network.backend" level="info" additivity="false">
+  <logger name="com.demystify.network.backend" level="info" additivity="false">
     <appender-ref ref="console"/>
   </logger>
 
-  <root level="info">
+  <root level="WARN">
     <appender-ref ref="console"/>
   </root>
 
